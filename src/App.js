@@ -2,6 +2,7 @@
 import { nanoid } from "nanoid";
 import { Component } from "react";
 import "./App.scss";
+import Filter from "./components/Filter/filter";
 import Form from "./components/Form/Form";
 
 class App extends Component {
@@ -25,6 +26,12 @@ class App extends Component {
     }));
   };
 
+  filterInput=(e)=>{    
+    const {value}= e.target
+    console.log(value);    
+    this.setState({ filter: value });    
+  }
+
   render() {
     const { contacts, filter} = this.state;
     return (
@@ -33,26 +40,28 @@ class App extends Component {
           <h2>Phonebook</h2>
         </header>
         <main className="main">
-          <Form onSubmit={this.formSubmitHandler} />
+         <Form onSubmit={this.formSubmitHandler} />
           <h2>Contacts</h2>
           <input
             className="filter"
             type="text"
             name="filter"
-            // value={filter}
+            value={filter}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
-            // onChange={this.handleChange}
+            placeholder="&#x1f50d; Search..."
+            onChange={this.filterInput}
           />
-          <ul className="list">
-            {contacts.map((el) => {
+          <ul className="list" >
+           {/* {filter&& <Filter contacts={contacts} filter={filter} />} */}
+            {(contacts.map((el) => {
               return (
                 <li key={el.id} className="item">
                   {el.name}: {el.number}
                 </li>
               );
-            })}
+            }))}
           </ul>
         </main>
       </div>
@@ -61,3 +70,8 @@ class App extends Component {
 }
 
 export default App;
+
+// const res= contacts.filter(contact =>  
+//    contact.name.toLowerCase().includes(filter.toLowerCase())
+//    );
+//  return res;
