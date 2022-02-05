@@ -1,4 +1,3 @@
-// import { nanoid } from "nanoid";
 import { nanoid } from "nanoid";
 import { Notify } from "notiflix";
 import { Component } from "react";
@@ -6,6 +5,7 @@ import "./App.scss";
 import ContactList from "./Components/ContactList/ContactList";
 import Filter from "./Components/Filter/Filter";
 import Form from "./Components/Form/Form";
+import PropTypes from "prop-types";
 
 class App extends Component {
   state = {
@@ -39,15 +39,16 @@ class App extends Component {
   };
 
   filterInput = (e) => {
-    const { value } = e.target;   
+    const { value } = e.target;
     this.setState({ filter: value });
   };
 
-  removeContact = (id) =>{
+  removeContact = (id) => {
     this.setState((prev) => ({
       contacts: prev.contacts.filter((el) => el.id !== id),
     }));
-    Notify.success("Contact delete", { timeout: 3000 });};
+    Notify.success("Contact delete", { timeout: 3000 });
+  };
 
   render() {
     const { contacts, filter } = this.state;
@@ -59,6 +60,7 @@ class App extends Component {
         <main className="main">
           <Form onSubmit={this.formSubmitHandler} />
           <h2>Contacts</h2>
+          <p className="find">Find contacts by name</p>
           <input
             className="filter"
             type="text"
@@ -89,5 +91,10 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  filter: PropTypes.string,
+  contacts: PropTypes.array,
+};
 
 export default App;
