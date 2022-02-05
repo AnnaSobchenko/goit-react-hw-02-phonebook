@@ -1,5 +1,6 @@
 // import { nanoid } from "nanoid";
 import { nanoid } from "nanoid";
+import { Notify } from "notiflix";
 import { Component } from "react";
 import "./App.scss";
 import ContactList from "./Components/ContactList/ContactList";
@@ -17,8 +18,18 @@ class App extends Component {
     filter: "",
   };
   formSubmitHandler = (contact) => {
-    console.log(contact);
-    this.addContact(contact)
+    if (
+      this.state.contacts
+        .map((el) => el.name === contact.name)
+        .filter((el) => el === true).length
+    ) {
+      Notify.info(`${contact.name} is already in contact`, {
+        timeout: 3000,
+      });
+    } else {
+      Notify.success(`${contact.name} is added`, { timeout: 3000 });
+      return this.addContact(contact);
+    }
   };
 
   addContact = (newContact) => {
@@ -27,21 +38,21 @@ class App extends Component {
     }));
   };
 
-  filterInput=(e)=>{    
-    const {value}= e.target
-    console.log(value);    
-    this.setState({ filter: value });    
-  }
+  filterInput = (e) => {
+    const { value } = e.target;
+    console.log(value);
+    this.setState({ filter: value });
+  };
 
   render() {
-    const { contacts, filter} = this.state;
+    const { contacts, filter } = this.state;
     return (
       <div className="App">
         <header className="AppHeader">
           <h2>Phonebook</h2>
         </header>
         <main className="main">
-         <Form onSubmit={this.formSubmitHandler} />
+          <Form onSubmit={this.formSubmitHandler} />
           <h2>Contacts</h2>
           <input
             className="filter"
@@ -54,9 +65,12 @@ class App extends Component {
             placeholder="&#x1f50d; Search..."
             onChange={this.filterInput}
           />
-          <ul className="list" >
-           {filter&& <Filter contacts={contacts} filter={filter} />}
-           {!filter&& <ContactList contacts={contacts} />}
+          <ul className="list">
+            {{ filter } ? (
+              <Filter contacts={contacts} filter={filter} />
+            ) : (
+              <ContactList contacts={contacts} />
+            )}
           </ul>
         </main>
       </div>
@@ -65,8 +79,3 @@ class App extends Component {
 }
 
 export default App;
-
-// const res= contacts.filter(contact =>  
-//    contact.name.toLowerCase().includes(filter.toLowerCase())
-//    );
-//  return res;
