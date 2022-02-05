@@ -2,8 +2,9 @@
 import { nanoid } from "nanoid";
 import { Component } from "react";
 import "./App.scss";
-import Filter from "./components/Filter/filter";
-import Form from "./components/Form/Form";
+import ContactList from "./Components/ContactList/ContactList";
+import Filter from "./Components/Filter/Filter";
+import Form from "./Components/Form/Form";
 
 class App extends Component {
   state = {
@@ -54,14 +55,8 @@ class App extends Component {
             onChange={this.filterInput}
           />
           <ul className="list" >
-           {/* {filter&& <Filter contacts={contacts} filter={filter} />} */}
-            {(contacts.map((el) => {
-              return (
-                <li key={el.id} className="item">
-                  {el.name}: {el.number}
-                </li>
-              );
-            }))}
+           {filter&& <Filter contacts={contacts} filter={filter} />}
+           {!filter&& <ContactList contacts={contacts} />}
           </ul>
         </main>
       </div>
