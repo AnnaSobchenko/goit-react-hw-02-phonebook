@@ -39,10 +39,15 @@ class App extends Component {
   };
 
   filterInput = (e) => {
-    const { value } = e.target;
-    console.log(value);
+    const { value } = e.target;   
     this.setState({ filter: value });
   };
+
+  removeContact = (id) =>{
+    this.setState((prev) => ({
+      contacts: prev.contacts.filter((el) => el.id !== id),
+    }));
+    Notify.success("Contact delete", { timeout: 3000 });};
 
   render() {
     const { contacts, filter } = this.state;
@@ -67,9 +72,16 @@ class App extends Component {
           />
           <ul className="list">
             {{ filter } ? (
-              <Filter contacts={contacts} filter={filter} />
+              <Filter
+                contacts={contacts}
+                filter={filter}
+                removeContact={this.removeContact}
+              />
             ) : (
-              <ContactList contacts={contacts} />
+              <ContactList
+                contacts={contacts}
+                removeContact={this.removeContact}
+              />
             )}
           </ul>
         </main>
