@@ -59,32 +59,13 @@ class App extends Component {
         </header>
         <main className="main">
           <Form onSubmit={this.formSubmitHandler} />
-          <h2>Contacts</h2>
-          <p className="find">Find contacts by name</p>
-          <input
-            className="filter"
-            type="text"
-            name="filter"
-            value={filter}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            placeholder="&#x1f50d; Search..."
-            onChange={this.filterInput}
-          />
+          <ContactList filter={filter} filterInput={this.filterInput} />
           <ul className="list">
-            {{ filter } ? (
-              <Filter
-                contacts={contacts}
-                filter={filter}
-                removeContact={this.removeContact}
-              />
-            ) : (
-              <ContactList
-                contacts={contacts}
-                removeContact={this.removeContact}
-              />
-            )}
+            <Filter
+              contacts={contacts}
+              filter={filter}
+              removeContact={this.removeContact}
+            />
           </ul>
         </main>
       </div>

@@ -5,9 +5,12 @@ class Filter extends Component {
   state = {};
   render() {
     const { contacts, filter, removeContact } = this.props;
-    const filterNameArr = contacts.filter((contact) =>
+    let filterNameArr = contacts.filter((contact) =>
       contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
     );
+    if (!filterNameArr) {
+      filterNameArr = contacts;
+    }
     return filterNameArr.map((el) => {
       return (
         <li key={el.id} className="item">
@@ -16,12 +19,12 @@ class Filter extends Component {
           </p>
           <button className="btn" onClick={(e) => removeContact(el.id)}>
             Del
-          </button>          
+          </button>
         </li>
       );
     });
   }
-};
+}
 Filter.propTypes = {
   name: PropTypes.string,
   number: PropTypes.string,

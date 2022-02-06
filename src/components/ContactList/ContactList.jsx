@@ -4,25 +4,24 @@ import PropTypes from "prop-types";
 class ContactList extends Component {
   state = {};
   render() {
-    const { contacts, removeContact } = this.props;
-    return contacts.map((el) => {
-      return (
-        <li key={el.id} className="item">
-          <p>
-            {el.name}: {el.number}
-          </p>
-          <button className="btn" onClick={(e) => removeContact(el.id)}>
-            Del
-          </button>
-        </li>
-      );
-    });
+    const { filter,filterInput} = this.props;
+    return <><h2>Contacts</h2>
+    <p className="find">Find contacts by name</p>
+    <input
+      className="filter"
+      type="text"
+      name="filter"
+      value={filter}
+      pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+      title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+      required
+      placeholder="&#x1f50d; Search..."
+      onChange={filterInput}
+    /></>
   }
 }
 ContactList.propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.string,
-  contacts: PropTypes.array,
+ filter: PropTypes.string,  
 };
 
 export default ContactList;
